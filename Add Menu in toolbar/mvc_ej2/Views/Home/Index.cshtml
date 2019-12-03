@@ -1,0 +1,56 @@
+﻿
+@{
+    List<object> toolbarItems = new List<object>();
+    toolbarItems.Add(new { text = "Menu", template = "#menuitem" });
+}
+
+<div id="menuitem">
+    <ul class="menu" id="tool_menu"></ul>
+</div>
+
+
+@Html.EJS().Grid("grid").DataSource((IEnumerable<object>)ViewBag.DataSource).ShowColumnChooser(true).AllowPaging(true).AllowExcelExport(true).EditSettings(edit => { edit.AllowAdding(true).AllowEditing(true).AllowDeleting(true); }).Columns(col =>
+{
+    col.Field("OrderID").HeaderText("OrderID").IsPrimaryKey(true).Width("50").Add();
+    col.Field("CustomerID").HeaderText("CustomerID").Width("90").Add();
+    col.Field("EmployeeID").HeaderText("EmployeeID").Type("date").Format("yMd").Width("90").Add();
+    col.Field("OrderDate").HeaderText("Order Date").Type("date").Format("yMd").Width("90").Add();
+    col.Field("Freight").HeaderText("Freight").Width("90").Add();
+}).Created("created").Toolbar(toolbarItems).AllowPaging().Render()
+<script>
+
+    function created() {
+        var menuItems = [
+            {
+                text: 'Items',
+                iconCss: 'e-icons MT_menu1',
+                items: [
+                    { text: 'Item 1' },
+                    { text: 'Item 2' },
+                    { text: 'Item 3' },
+                ]
+            }
+        ];
+        // Initialize Menu component.
+        var menuObj = new ej.navigations.Menu({ items: menuItems, select: onMenuSelect });
+        menuObj.appendTo("#tool_menu");
+    }
+
+    function onMenuSelect(args) {
+        // Triggers on selecting menu item
+    }
+
+
+</script>
+
+<style>
+
+
+    body {
+        touch-action: none;
+    }
+
+    .MT_menu1::before {
+        content: '\e99a';
+    }
+</style>

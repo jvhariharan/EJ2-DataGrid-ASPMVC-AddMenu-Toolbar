@@ -1,0 +1,16 @@
+﻿@Html.EJS().Grid("grid").DataSource(dataManger =>
+   {
+       dataManger.Url("/Home/UrlDatasource").BatchUrl("/Home/BatchUpdate").Adaptor("UrlAdaptor");
+   }).Columns(col =>
+                {
+                    col.Field("OrderID").HeaderText("OrderID").IsPrimaryKey(true).Width("50").Add();
+                    col.Field("CustomerID").HeaderText("CustomerID").Width("90").Add();
+                    col.Field("EmployeeID").HeaderText("EmployeeID").Width("90").Add();
+                    col.Field("Freight").HeaderText("Freight").ValueAccessor("total").Width("90").Add();
+                }).AllowPaging().Toolbar(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" }).EditSettings(edit => { edit.AllowAdding(true).AllowEditing(true).AllowDeleting(true).Mode(Syncfusion.EJ2.Grids.EditMode.Batch); }).Render()
+
+<script>
+    function total(field, data, column) {
+        return data.EmployeeID * data.Freight;
+    };
+    </script>
